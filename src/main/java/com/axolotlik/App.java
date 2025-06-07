@@ -17,7 +17,13 @@ public class App {
                 return;
             }
             if (arguments.contains("--help")) {
-                try (InputStream helpFile = App.class.getResourceAsStream("/help.txt")) {
+                String lang = "en";
+                if (arguments.indexOf("--help") + 1 < arguments.size()
+                && !arguments.get(arguments.indexOf("--help") + 1).startsWith("-")
+                ) {
+                    lang = arguments.get(arguments.indexOf("--help") + 1);
+                }
+                try (InputStream helpFile = App.class.getResourceAsStream("/help_" + lang + ".txt")) {
                     new BufferedReader(new InputStreamReader(helpFile))
                             .lines()
                             .forEach(System.out::println);

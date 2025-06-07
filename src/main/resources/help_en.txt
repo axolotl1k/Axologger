@@ -1,0 +1,49 @@
+Axologger — CLI tool for collecting source code files into a single Markdown file
+
+Usage:
+  axologger [options]
+
+Main options:
+
+  --types [.java .xml ...]
+      Specifies the list of file extensions to include.
+      If not provided — no extension filtering is applied.
+
+  --dir [folder1 folder2 ...]
+      Recursively scans the given folders and includes files matching filters.
+      If not provided — the current directory is scanned.
+
+  --files [file1 file2 ...]
+      Adds specific files manually, regardless of --dir or --types.
+
+  --exclude-dir [folder1 folder2 ...]
+      Excludes specified directories from the result.
+
+  --out [file.md]
+      Defines the output Markdown file path.
+      Default: log.md
+
+  --append
+      Appends to the existing file instead of overwriting it.
+
+  --dry-run
+      Simulates execution and prints which files would be included — no file is created.
+
+  --prop-file [file]
+      Loads a set of parameters from a given text file.
+      Format: each line is a CLI-style argument:
+        --types=.java .xml
+        --dir=src test
+        --out=output.md
+
+  --help [uk|en]
+      Displays this help message. Default is English (en).
+
+Additional:
+
+  - Parameters can be freely combined.
+  - CLI parameters override those from --prop-file.
+  - At least one of --types, --dir, or --files must be specified — otherwise, an error is thrown.
+
+Example:
+  axologger --types .java .xml --dir src test --out code.md
