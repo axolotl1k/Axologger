@@ -1,54 +1,61 @@
+📄 Available languages: [English](README.md) | [Українська](README.ua.md)
+
 # 🦎 Axologger
 
-**Axologger** — універсальна CLI-утиліта для збору вихідних кодів з проєктів у один Markdown-файл.
+**Axologger** is a universal CLI tool that collects source code files from any project into a single, readable Markdown document.
 
-Працює з будь-якими текстовими файлами: `.java`, `.py`, `.js`, `.xml`, `.html`, `.txt`, тощо.  
-Ідеально підходить для архівації, ревʼю, підготовки до публікацій або для надсилання в ChatGPT 😄
-
----
-
-## ⚙️ Можливості
-
-- ✅ Вибір файлів за розширенням: `--types .py .java .html`
-- ✅ Вибір директорій: `--dir src test scripts`
-- ✅ Додавання конкретних файлів: `--files main.py utils.java`
-- ✅ Виключення директорій: `--exclude-dir target build .git`
-- ✅ Запис у Markdown: `--out output.md`
-- ✅ Режим dry-run: `--dry-run` (тільки перегляд)
-- ✅ Збереження конфігурацій: `--prop-file`
-- ✅ Довідка українською або англійською: `--help uk | en`
-- ✅ Повністю автономна (Java, без бібліотек)
+It works with any text-based source files: `.java`, `.py`, `.js`, `.xml`, `.html`, `.txt`, and more.  
+Perfect for archiving, code reviews, preparing publications, or sending code to ChatGPT (or any AI assistant) 😄
 
 ---
 
-## 🚀 Встановлення
+## ⚙️ Features
 
-1. Завантаж або зберіть `Axologger.jar`
-2. Для швидкого доступу додай `bin/` у `PATH`, або виконай `install_axologger.bat`
+- ✅ Filter files by extension: `--types .py .java .html`
+- ✅ Recursively collect from folders: `--dir src test scripts`
+- ✅ Add specific files manually: `--files main.py utils.java`
+- ✅ Exclude unwanted folders: `--exclude-dir target build .git`
+- ✅ Export everything to Markdown: `--out output.md`
+- ✅ Dry-run mode to simulate: `--dry-run`
+- ✅ Save reusable configs in: `--prop-file`
+- ✅ Multi-language help: `--help uk | en`
+- ✅ Fully portable (pure Java, no dependencies)
 
 ---
 
-## 🔍 Приклади використання
+## 🚀 Installation
+
+1. Download the latest [release from GitHub](https://github.com/axolotl1k/Axologger/releases)
+2. Unpack `axologger-dist.zip` to a convenient location (e.g. `C:\MyTools\Axologger`)
+3. Run `install_axologger.bat` to add the `bin/` directory to your system PATH
+4. Open a new terminal and run:
+```bash
+axologger --help
+```
+
+---
+
+## 🔍 Examples
 
 ```bash
-# Витягнути всі Python та Java файли з src/ і test/
+# Collect all .py and .java files from src/ and test/
 axologger --types .py .java --dir src test --out code.md
 
-# Додати тільки конкретні файли вручну
+# Add individual files manually
 axologger --files App.java script.py README.md
 
-# Dry-run: перевірити що включиться
+# Preview what would be collected (without writing)
 axologger --types .java --dir src --dry-run
 
-# Використати попередньо підготовлений набір параметрів
+# Load configuration from a preset file
 axologger --prop-file config.txt
 ```
 
 ---
 
-## 📁 Формат Markdown-виводу
+## 📁 Markdown Output Format
 
-Файли зберігаються у вигляді:
+Files are written as:
 
 ````md
 ## ./src/main.py
@@ -57,14 +64,14 @@ axologger --prop-file config.txt
 ```
 ````
 
-> Розширення автоматично додається як тип `code block`.
+> File extension is automatically used as the language identifier.
 
 ---
 
-## 📜 Ліцензія
+## 📜 License
 
 MIT
 
 ---
 
-👤 Автор: [@axolotlik](https://github.com/axolotlik)
+👤 Author: [@axolotlik](https://github.com/axolotl1k)
