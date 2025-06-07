@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.axolotlik</groupId>
+    <artifactId>Axologger</artifactId>
+    <version>1.0</version>
+
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.4.2</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.axolotlik.App</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.7.1</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.axolotlik.App</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <finalName>Axologger</finalName>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <mkdir dir="target/axologger-dist/bin"/>
+                                <copy file="target/Axologger-jar-with-dependencies.jar"
+                                      tofile="target/axologger-dist/bin/Axologger.jar"/>
+                                <echo file="target/axologger-dist/bin/axologger.bat">
+                                    @echo off
+                                    java -jar "%~dp0Axologger.jar" %*
+                                </echo>
+                                <echo file="target/axologger-dist/install.bat">
+                                    @echo off
+                                    setlocal
+
+                                    :: Define path to add
+                                    set "TOOL_PATH=%~dp0bin"
+
+                                    :: Get current user PATH from registry
+                                    for /f "tokens=2*" %%A in ('reg query "HKCU\Environment" /v Path 2^>nul') do (
+                                    set "OLD_PATH=%%B"
+                                    )
+
+                                    :: Check if TOOL_PATH is already present
+                                    echo Checking if path already exists...
+                                    echo %OLD_PATH% | find /i "%TOOL_PATH%" >nul
+                                    if not errorlevel 1 (
+                                    echo Path already exists in user PATH: %TOOL_PATH%
+                                    echo No changes made.
+                                    pause
+                                    exit /b
+                                    )
+
+                                    :: Append to PATH
+                                    echo Adding path: %TOOL_PATH%
+                                    set "NEW_PATH=%OLD_PATH%;%TOOL_PATH%"
+                                    reg add "HKCU\Environment" /v Path /t REG_EXPAND_SZ /d "%NEW_PATH%" /f
+
+                                    echo.
+                                    echo Axologger path added to user PATH!
+                                    echo Restart your terminal or log out/in to apply changes.
+                                    pause
+                                </echo>
+
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
